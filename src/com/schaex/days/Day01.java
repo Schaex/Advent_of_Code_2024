@@ -62,7 +62,7 @@ public class Day01 {
                 counterLeft.compute(left, mappingFunction);
             }
 
-            for (Integer right : table[0]) {
+            for (Integer right : table[1]) {
                 counterRight.compute(right, mappingFunction);
             }
 
