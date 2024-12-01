@@ -58,12 +58,9 @@ public class Day01 {
             // Map to 1 if the mapping does not exist, otherwise increase mapped value by one
             final BinaryOperator<Integer> mappingFunction = (key, value) -> value == null ? 1 : value + 1;
 
-            for (Integer left : table[0]) {
-                counterLeft.compute(left, mappingFunction);
-            }
-
-            for (Integer right : table[1]) {
-                counterRight.compute(right, mappingFunction);
+            for (int i = 0; i < length; i++) {
+                counterLeft.compute(table[0][i], mappingFunction);
+                counterRight.compute(table[1][i], mappingFunction);
             }
 
             int count = 0;
