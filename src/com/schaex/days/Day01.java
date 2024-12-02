@@ -18,13 +18,9 @@ public class Day01 {
         // 2. Parse each entry as int -> Integer array
         // 3. Collect                 -> array of Integer arrays
         // 4. Transpose 2D array
-        int[][] table = FileUtil.getLinesFromFile(file, stream -> {
-                    final int[][] array2D = stream.map(s -> s.split(" {3}"))
-                            .map(pair -> new int[]{Integer.parseInt(pair[0]), Integer.parseInt(pair[1])})
-                            .toArray(int[][]::new);
+        int[][] table = FileUtil.getIntTableFromFile(file, " {3}");
 
-                    return ArrayUtil.transposeRectangular(array2D);
-                });
+        table = ArrayUtil.transposeRectangular(table);
 
         // Cache reference to the individual Lists
         final int[] leftList = table[0];
