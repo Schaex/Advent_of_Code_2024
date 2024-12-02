@@ -17,13 +17,14 @@ public class Day01 {
         // 1. Split at "   "          -> String array
         // 2. Parse each entry as int -> Integer array
         // 3. Collect                 -> array of Integer arrays
-        int[][] table = FileUtil.getLinesFromFile(file)
-                .stream()
-                .map(s -> s.split(" {3}"))
-                .map(pair -> new int[]{Integer.parseInt(pair[0]), Integer.parseInt(pair[1])})
-                .toArray(int[][]::new);
+        // 4. Transpose 2D array
+        int[][] table = FileUtil.getLinesFromFile(file, stream -> {
+                    final int[][] array2D = stream.map(s -> s.split(" {3}"))
+                            .map(pair -> new int[]{Integer.parseInt(pair[0]), Integer.parseInt(pair[1])})
+                            .toArray(int[][]::new);
 
-        table = ArrayUtil.transposeRectangular(table);
+                    return ArrayUtil.transposeRectangular(array2D);
+                });
 
         // Cache reference to the individual Lists
         final int[] leftList = table[0];
