@@ -17,20 +17,24 @@ public class Day01 {
         // 1. Split at "   "          -> String array
         // 2. Parse each entry as int -> Integer array
         // 3. Collect                 -> array of Integer arrays
-        Integer[][] table = FileUtil.getLinesFromFile(file)
+        int[][] table = FileUtil.getLinesFromFile(file)
                 .stream()
                 .map(s -> s.split(" {3}"))
-                .map(pair -> new Integer[]{Integer.parseInt(pair[0]), Integer.parseInt(pair[1])})
-                .toArray(Integer[][]::new);
+                .map(pair -> new int[]{Integer.parseInt(pair[0]), Integer.parseInt(pair[1])})
+                .toArray(int[][]::new);
 
         table = ArrayUtil.transposeRectangular(table);
 
-        // Cache value
-        final int length = table[0].length;
+        // Cache reference to the individual Lists
+        final int[] leftList = table[0];
+        final int[] rightList = table[1];
+
+        // Cache length
+        final int length = leftList.length;
 
         // Integer implements Comparable<Integer> -> no Comparator<Integer> needed
-        Arrays.sort(table[0]);
-        Arrays.sort(table[1]);
+        Arrays.sort(leftList);
+        Arrays.sort(rightList);
 
         System.out.print("Part one: ");
 
@@ -39,7 +43,7 @@ public class Day01 {
             int count = 0;
 
             for (int i = 0; i < length; i++) {
-                int diff = table[0][i] - table[1][i];
+                int diff = leftList[i] - rightList[i];
 
                 // Add absolute value
                 count += (diff < 0) ? -diff : diff;
@@ -59,8 +63,8 @@ public class Day01 {
             final BinaryOperator<Integer> mappingFunction = (key, value) -> value == null ? 1 : value + 1;
 
             for (int i = 0; i < length; i++) {
-                counterLeft.compute(table[0][i], mappingFunction);
-                counterRight.compute(table[1][i], mappingFunction);
+                counterLeft.compute(leftList[i], mappingFunction);
+                counterRight.compute(rightList[i], mappingFunction);
             }
 
             int count = 0;
