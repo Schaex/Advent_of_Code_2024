@@ -6,8 +6,8 @@ import java.io.File;
 import java.io.IOException;
 
 public class Day02 {
-    public static void main(String[] args) throws IOException {
-        final File file = DaysUtil.resource("Day_02.txt");
+    public static void main(String... args) throws IOException {
+        final File file = DaysUtil.resource(2);
 
         final int[][] list = FileUtil.getIntTableFromFile(file, " ");
 

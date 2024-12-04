@@ -12,7 +12,7 @@ import java.util.function.BinaryOperator;
 
 public class Day01 {
     public static void main(String... args) throws IOException {
-        final File file = DaysUtil.resource("Day_01.txt");
+        final File file = DaysUtil.resource(1);
 
         int[][] table = FileUtil.getIntTableFromFile(file, " {3}");
         table = ArrayUtil.transposeRectangular(table);

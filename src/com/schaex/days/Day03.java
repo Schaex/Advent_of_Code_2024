@@ -10,8 +10,8 @@ import java.util.regex.MatchResult;
 import java.util.regex.Pattern;
 
 public class Day03 {
-    public static void main(String[] args) throws IOException {
-        final File file = DaysUtil.resource("Day_03.txt");
+    public static void main(String... args) throws IOException {
+        final File file = DaysUtil.resource(3);
 
         final String text = FileUtil.readEntireFile(file);
 

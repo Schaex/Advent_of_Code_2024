@@ -6,8 +6,8 @@ import java.io.File;
 import java.io.IOException;
 
 public class Day04 {
-    public static void main(String[] args) throws IOException {
-        final File file = DaysUtil.resource("Day_04.txt");
+    public static void main(String... args) throws IOException {
+        final File file = DaysUtil.resource(4);
 
         final char[][] matrix = FileUtil.transformFileContent(file, lines ->
                 lines.map(String::toCharArray)
@@ -49,6 +49,7 @@ public class Day04 {
 
         System.out.print("Part two: ");
 
+        // 1967
         {
             int count = 0;
 
