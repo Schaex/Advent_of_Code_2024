@@ -1,9 +1,6 @@
 package com.schaex.util;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Stream;
@@ -34,5 +31,13 @@ public final class FileUtil {
 
     public static List<String> getLinesFromFile(File file) throws IOException {
         return transformFileContent(file, Stream::toList);
+    }
+
+    public static String readEntireFile(File file) throws IOException {
+        try (FileInputStream in = new FileInputStream(file)) {
+            final byte[] bytes = in.readAllBytes();
+
+            return new String(bytes);
+        }
     }
 }

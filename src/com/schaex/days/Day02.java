@@ -20,7 +20,6 @@ public class Day02 {
             for (int[] ints : list) {
                 boolean safe = true;
 
-                // Increasing or decreasing
                 if (ints[0] < ints[1]) {
                     for (int i = 0; i < ints.length - 1; i++) {
                         final int diff = ints[i + 1] - ints[i];
