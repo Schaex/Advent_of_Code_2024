@@ -34,4 +34,14 @@ public final class ArrayUtil {
 
         return transposed;
     }
+
+    public static int[] intArrayFromStrings(String[] strArray) {
+        final int[] ints = new int[strArray.length];
+
+        for (int i = 0; i < ints.length; i++) {
+            ints[i] = Integer.parseInt(strArray[i]);
+        }
+
+        return ints;
+    }
 }

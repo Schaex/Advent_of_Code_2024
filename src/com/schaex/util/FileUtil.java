@@ -1,5 +1,7 @@
 package com.schaex.util;
 
+import com.schaex.arrays.ArrayUtil;
+
 import java.io.*;
 import java.util.List;
 import java.util.function.Function;
@@ -17,15 +19,7 @@ public final class FileUtil {
     public static int[][] getIntTableFromFile(File file, String delimiter) throws IOException {
         return transformFileContent(file, stream ->
                 stream.map(s -> s.split(delimiter))
-                        .map(strArray -> {
-                            final int[] ints = new int[strArray.length];
-
-                            for (int i = 0; i < ints.length; i++) {
-                                ints[i] = Integer.parseInt(strArray[i]);
-                            }
-
-                            return ints;
-                        })
+                        .map(ArrayUtil::intArrayFromStrings)
                         .toArray(int[][]::new));
     }
 
