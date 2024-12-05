@@ -45,22 +45,6 @@ public class Day05 {
             boolean correct = true;
 
             loop: for (int i = 0; i < update.length - 1; i++) {
-                final List<Integer> previous = allPrevious.get(update[i]);
-
-                for (int j = i + 1; j < update.length; j++) {
-                    if (previous.contains(update[j])) {
-                        correct = false;
-                        break loop;
-                    }
-                }
-            }
-
-            if (correct) {
-                count += update[update.length / 2];
-                continue;
-            }
-
-            correctionLoop: for (int i = 0; i < update.length - 1; i++) {
                 final int current = update[i];
                 final List<Integer> previous = allPrevious.get(current);
 
@@ -68,15 +52,22 @@ public class Day05 {
                     final int nextToTest = update[j];
 
                     if (previous.contains(nextToTest)) {
+                        correct = false;
+
                         System.arraycopy(update, i, update, i + 1, j - i);
                         update[i] = nextToTest;
                         i--;
-                        continue correctionLoop;
+
+                        continue loop;
                     }
                 }
             }
 
-            newlyCorrectCount += update[update.length / 2];
+            if (correct) {
+                count += update[update.length / 2];
+            } else {
+                newlyCorrectCount += update[update.length / 2];
+            }
         }
 
         // 4135
