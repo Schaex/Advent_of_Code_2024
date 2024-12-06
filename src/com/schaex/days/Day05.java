@@ -44,7 +44,7 @@ public class Day05 {
         for (int[] update : updates) {
             boolean correct = true;
 
-            loop: for (int i = 0; i < update.length - 1; i++) {
+            for (int i = 0; i < update.length - 1; i++) {
                 final int current = update[i];
                 final List<Integer> previous = allPrevious.get(current);
 
@@ -58,15 +58,17 @@ public class Day05 {
                         update[i] = nextToTest;
                         i--;
 
-                        continue loop;
+                        break;
                     }
                 }
             }
 
+            final int addend = update[update.length / 2];
+
             if (correct) {
-                count += update[update.length / 2];
+                count += addend;
             } else {
-                newlyCorrectCount += update[update.length / 2];
+                newlyCorrectCount += addend;
             }
         }
 
