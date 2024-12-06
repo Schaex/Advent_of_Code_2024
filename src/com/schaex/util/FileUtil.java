@@ -18,9 +18,7 @@ public final class FileUtil {
     }
 
     public static <T> T transformFileContent(int day, Function<Stream<String>, T> transformer) throws IOException {
-        try (BufferedReader reader = new BufferedReader(new FileReader(DaysUtil.resource(day)))) {
-            return transformer.apply(reader.lines());
-        }
+        return transformFileContent(DaysUtil.resource(day), transformer);
     }
 
     public static int[][] getIntTableFromFile(int day, String delimiter) throws IOException {
