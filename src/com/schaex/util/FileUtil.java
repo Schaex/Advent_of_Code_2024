@@ -1,6 +1,7 @@
 package com.schaex.util;
 
 import com.schaex.arrays.ArrayUtil;
+import com.schaex.days.DaysUtil;
 
 import java.io.*;
 import java.util.List;
@@ -16,15 +17,17 @@ public final class FileUtil {
         }
     }
 
-    public static int[][] getIntTableFromFile(File file, String delimiter) throws IOException {
-        return transformFileContent(file, stream ->
+    public static <T> T transformFileContent(int day, Function<Stream<String>, T> transformer) throws IOException {
+        try (BufferedReader reader = new BufferedReader(new FileReader(DaysUtil.resource(day)))) {
+            return transformer.apply(reader.lines());
+        }
+    }
+
+    public static int[][] getIntTableFromFile(int day, String delimiter) throws IOException {
+        return transformFileContent(day, stream ->
                 stream.map(s -> s.split(delimiter))
                         .map(ArrayUtil::intArrayFromStrings)
                         .toArray(int[][]::new));
-    }
-
-    public static List<String> getLinesFromFile(File file) throws IOException {
-        return transformFileContent(file, Stream::toList);
     }
 
     public static String readEntireFile(File file) throws IOException {

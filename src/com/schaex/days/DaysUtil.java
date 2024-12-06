@@ -3,7 +3,7 @@ package com.schaex.days;
 import java.io.File;
 import java.util.Objects;
 
-final class DaysUtil {
+public final class DaysUtil {
     private DaysUtil() {}
 
     public static File resource(String name) {

@@ -2,14 +2,11 @@ package com.schaex.days;
 
 import com.schaex.util.FileUtil;
 
-import java.io.File;
 import java.io.IOException;
 
 public class Day04 {
     public static void main(String... args) throws IOException {
-        final File file = DaysUtil.resource(4);
-
-        final char[][] matrix = FileUtil.transformFileContent(file, lines ->
+        final char[][] matrix = FileUtil.transformFileContent(4, lines ->
                 lines.map(String::toCharArray)
                         .toArray(char[][]::new));
 

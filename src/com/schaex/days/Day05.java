@@ -3,18 +3,15 @@ package com.schaex.days;
 import com.schaex.arrays.ArrayUtil;
 import com.schaex.util.FileUtil;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Day05 {
     public static void main(String... args) throws IOException {
-        final File file = DaysUtil.resource(5);
-
         final Map<Integer, List<Integer>> allPrevious = new HashMap<>();
 
-        final int[][] updates = FileUtil.transformFileContent(file, stream -> {
+        final int[][] updates = FileUtil.transformFileContent(5, stream -> {
             final List<int[]> updatesList = new ArrayList<>();
 
             final AtomicBoolean foundAllRules = new AtomicBoolean();

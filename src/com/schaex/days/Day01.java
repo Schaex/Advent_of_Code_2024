@@ -3,7 +3,6 @@ package com.schaex.days;
 import com.schaex.arrays.ArrayUtil;
 import com.schaex.util.FileUtil;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -12,9 +11,7 @@ import java.util.function.BinaryOperator;
 
 public class Day01 {
     public static void main(String... args) throws IOException {
-        final File file = DaysUtil.resource(1);
-
-        int[][] table = FileUtil.getIntTableFromFile(file, " {3}");
+        int[][] table = FileUtil.getIntTableFromFile(1, " {3}");
         table = ArrayUtil.transposeRectangular(table);
 
         final int[] leftList = table[0];

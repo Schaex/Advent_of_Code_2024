@@ -2,14 +2,11 @@ package com.schaex.days;
 
 import com.schaex.util.FileUtil;
 
-import java.io.File;
 import java.io.IOException;
 
 public class Day02 {
     public static void main(String... args) throws IOException {
-        final File file = DaysUtil.resource(2);
-
-        final int[][] list = FileUtil.getIntTableFromFile(file, " ");
+        final int[][] list = FileUtil.getIntTableFromFile(2, " ");
 
         System.out.print("Part one: ");
 
