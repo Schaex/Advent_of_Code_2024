@@ -1,18 +1,23 @@
 package com.schaex;
 
-import java.util.Arrays;
-import java.util.stream.IntStream;
+import java.lang.reflect.InvocationTargetException;
 
 public class Main {
-    public static void main(String... args) {
-        final int[] array = IntStream.range(0, 20).toArray();
+    public static void main(String... args) throws Exception {
+        runDaysUntil(7);
+    }
 
-        System.out.println(Arrays.toString(array));
+    private static void runDaysUntil(int day) throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+        for (int i = 1; i <= day; i++) {
+            final String name = i < 10 ? "Day0" + i : "Day" + i;
 
-        System.arraycopy(array, 2, array, 2 + 1, 8);
+            System.out.println(name);
 
-        array[2] = 10;
+            Class.forName("com.schaex.days." + name)
+                    .getDeclaredMethod("main", String[].class)
+                    .invoke(null, (Object) null);
 
-        System.out.println(Arrays.toString(array));
+            System.out.println();
+        }
     }
 }

@@ -44,4 +44,14 @@ public final class ArrayUtil {
 
         return ints;
     }
+
+    public static long[] longArrayFromStrings(String[] strArray) {
+        final long[] longs = new long[strArray.length];
+
+        for (int i = 0; i < longs.length; i++) {
+            longs[i] = Long.parseLong(strArray[i]);
+        }
+
+        return longs;
+    }
 }

@@ -13,14 +13,18 @@ public class Day03 {
     public static void main(String... args) throws IOException {
         final File file = DaysUtil.resource(3);
 
+        // Get entire file as a single string
         final String text = FileUtil.readEntireFile(file);
 
         System.out.print("Part one: ");
 
         // 173419328
         {
+            // AtomicInteger to be able to increment using a reference
             final AtomicInteger count = new AtomicInteger();
 
+            // Results must be "mul(num1,num2)" with num1 and num2 as a 1-3 digit integer
+            // Compute lazily using a stream
             Pattern.compile("mul\\([0-9]{1,3},[0-9]{1,3}\\)")
                     .matcher(text)
                     .results()
@@ -43,9 +47,14 @@ public class Day03 {
 
         // 90669332
         {
+            // Again, an AtomicInteger to be able to increment using a reference
             final AtomicInteger count = new AtomicInteger();
+
+            // AtomicBoolean to have a switch to account for "do()" and "don't()"
             final AtomicBoolean enabled = new AtomicBoolean(true);
 
+            // Results must be "mul(num1,num2)" with num1 and num2 as a 1-3 digit integer (as before) or "do()" or "don't()"
+            // Again, compute lazily using a stream
             Pattern.compile("mul\\([0-9]{1,3},[0-9]{1,3}\\)|do\\(\\)|don't\\(\\)")
                     .matcher(text)
                     .results()

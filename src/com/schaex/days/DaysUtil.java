@@ -11,8 +11,8 @@ public final class DaysUtil {
     }
 
     public static File resource(int day) {
-        String num = day < 10 ? "0" + day : Integer.toString(day);
+        String prefix = day < 10 ? "Day_0" + day : "Day_" + day;
 
-        return resource("Day_" + num + ".txt");
+        return resource(prefix + ".txt");
     }
 }

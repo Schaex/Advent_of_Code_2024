@@ -12,6 +12,7 @@ public class Day06 {
     private static final int WIDTH;
     private static final int HEIGHT;
 
+    // Static initializer so that the constants are available to everything inside this class
     static {
         try {
             AREA = FileUtil.transformFileContent(6,
@@ -24,12 +25,12 @@ public class Day06 {
         HEIGHT = AREA.length;
     }
 
-    public static void main(String... args) throws IOException {
-        Direction dir = Direction.UP;
-
+    public static void main(String... args) {
+        // Coordinates on the grid
         int x = 0;
         int y = 0;
 
+        // Find the starting coordinates of the guard
         findingLoop:
         for (; y < HEIGHT; y++) {
             for (x = 0; x < WIDTH; x++) {
@@ -39,29 +40,41 @@ public class Day06 {
             }
         }
 
+        // Cache the starting coordinates so that they can be used again later
         final int startX = x;
         final int startY = y;
 
+        // Starting direction
+        Direction dir = Direction.UP;
+
+        // List that keeps record of all the tiles the guard steps on
+        // => prevent checking for tiles that don't interfere with the guard's movement in task 2
         final List<Point> traversedPoints = new LinkedList<>();
 
         System.out.print("Part one: ");
 
         // 5208
         {
-            AREA[y][x] = dir.symbol;
+            // Initialize the counting variable to one because the guard starts on a tile
             int count = 1;
 
+            // "While the guard is on the grid after each move"
             while (ParamUtil.isInRange(x += dir.dx, 0, WIDTH) &&
                    ParamUtil.isInRange(y += dir.dy, 0, HEIGHT)) {
+                // Get the tile in front of the guard
                 final char nextTile = AREA[y][x];
 
                 if (nextTile == '#') {
+                    // If it is an obstacle, move one step back and turn right
                     x -= dir.dx;
                     y -= dir.dy;
                     dir = dir.turnRight();
                 } else if (nextTile == '.') {
+                    // If it is a new tile, add its point to the list and mark it with the direction's symbol
                     traversedPoints.add(new Point(x, y, dir));
                     AREA[y][x] = dir.symbol;
+
+                    // Increase because it is a new tile
                     count++;
                 }
             }
@@ -71,6 +84,7 @@ public class Day06 {
 
         System.out.print("Part two: ");
 
+        // 1972
         {
             int count = 0;
 
@@ -82,21 +96,27 @@ public class Day06 {
                     y = startY;
                     dir = Direction.UP;
 
+                    // Marks this tile as additional obstacle so that it can be removed again with clearArea()
                     AREA[point.y][point.x] = 'O';
 
                     boolean resultsInInfiniteLoop = false;
 
                     while (ParamUtil.isInRange(x += dir.dx, 0, WIDTH) &&
                            ParamUtil.isInRange(y += dir.dy, 0, HEIGHT)) {
+                        // Again get the tile in front of the guard
                         final char nextTile = AREA[y][x];
 
                         if (nextTile == '#' || nextTile == 'O') {
+                            // We have an obstacle
                             x -= dir.dx;
                             y -= dir.dy;
                             dir = dir.turnRight();
                         } else if (nextTile == '.') {
+                            // No obstacle but a new tile
                             AREA[y][x] = dir.symbol;
                         } else if (nextTile == dir.symbol) {
+                            // No obstacle and a tile that was stepped on in this direction before
+                            // => We went in circles
                             resultsInInfiniteLoop = true;
                             break;
                         }
@@ -112,6 +132,7 @@ public class Day06 {
         }
     }
 
+    // Resets all tiles that are not a permanent obstacle '#' to a "new tile" '.'
     private static void clearArea() {
         for (char[] line : AREA) {
             for (int i = 0; i < line.length; i++) {
@@ -122,6 +143,7 @@ public class Day06 {
         }
     }
 
+    // Utility enum as there are only four possible directions => singletons
     private enum Direction {
         UP(0, -1, '^'),
         RIGHT(1, 0, '>'),
@@ -138,6 +160,7 @@ public class Day06 {
             this.symbol = symbol;
         }
 
+        // Returns the direction the guard faces after turning right
         Direction turnRight() {
             return switch (this) {
                 case UP -> RIGHT;
@@ -148,7 +171,11 @@ public class Day06 {
         }
     }
 
+    // Immutable container for each tile's coordinate the guard stepped on and the duration it was facing
     private record Point(int x, int y, Direction dir) {
+
+        // Computes whether the guard will run into an obstacle after colliding
+        // with an obstacle in these coordinates and turning right
         boolean hasObstacleToTheRightOfPreviousTile() {
             final Direction nextDir = dir.turnRight();
 
@@ -156,9 +183,11 @@ public class Day06 {
             int x = this.x - dir.dx;
             int y = this.y - dir.dy;
 
+            // While the guard is on the grid
             while (ParamUtil.isInRange(x += nextDir.dx, 0, WIDTH) &&
                    ParamUtil.isInRange(y += nextDir.dy, 0, HEIGHT)) {
                 if (AREA[y][x] == '#') {
+                    // We found an obstacle
                     return true;
                 }
             }

@@ -6,10 +6,12 @@ import java.io.IOException;
 
 public class Day04 {
     public static void main(String... args) throws IOException {
+        // Get grid as 2-dimensional char array
         final char[][] matrix = FileUtil.transformFileContent(4, lines ->
                 lines.map(String::toCharArray)
                         .toArray(char[][]::new));
 
+        // Cache dimensions
         final int length = matrix.length;
         final int width = matrix[0].length;
 
@@ -64,11 +66,14 @@ public class Day04 {
         }
     }
 
+    // Checks for "XMAS" or "SAMX"
     private static boolean isXmas(char c1, char c2, char c3, char c4) {
         return (c1 == 'X' && c2 == 'M' && c3 == 'A' && c4 == 'S') ||
                 (c4 == 'X' && c3 == 'M' && c2 == 'A' && c1 == 'S');
     }
 
+    // First checks if the first argument is 'A'
+    // Then checks if the corners make "MAS" and/or "SAM"
     private static boolean isCrossMas(char center, char tl, char br, char bl, char tr) {
         return center == 'A' &&
                 ((tl == 'M' && br == 'S') || (tl == 'S' && br == 'M')) &&
