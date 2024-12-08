@@ -5,34 +5,50 @@ import com.schaex.util.ParamUtil;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Consumer;
 
 public class Day08 {
     public static void main(String... args) throws IOException {
-        // Get the input as char array
-        final char[][] map = FileUtil.transformFileContent(8,
-                stream -> stream.map(String::toCharArray)
-                        .toArray(char[][]::new));
-
-        // Cache these important values. This is possible because the array is rectangular
-        final int height = map.length;
-        final int width = map[0].length;
-
         final Map<Character, List<Point>> frequencies = new HashMap<>();
 
-        // Run through the input and collect the coordinates of the antennas
-        for (int y = 0; y < height; y++) {
-            final char[] line = map[y];
+        // Lazily get the coordinates of each antenna without the need to collect the lines of the input
+        final int[] dimensions = FileUtil.transformFileContent(8, stream -> {
+            // AtomicInteger so that we can use a reference inside a lambda expression
+            final AtomicInteger currentY = new AtomicInteger();
 
-            for (int x = 0; x < width; x++) {
-                final char frequency = line[x];
+            // Transform the stream to an iterator because we need to fetch the first element independently
+            final Iterator<char[]> it = stream.map(String::toCharArray).iterator();
 
-                if (frequency != '.') {
-                    // Create the mapping if it doesn't exist and return either way
-                    frequencies.computeIfAbsent(frequency, i -> new ArrayList<>())
-                            .add(new Point(x, y));
+            // Get the first element and cache its length
+            final char[] firstLine = it.next();
+            final int width = firstLine.length;
+
+            // This will run for each line
+            final Consumer<char[]> collector = line -> {
+                for (int x = 0; x < width; x++) {
+                    final char frequency = line[x];
+
+                    if (frequency != '.') {
+                        // Create the mapping if it doesn't exist and return either way
+                        frequencies.computeIfAbsent(frequency, i -> new ArrayList<>())
+                                .add(new Point(x, currentY.get()));
+                    }
                 }
-            }
-        }
+
+                // Equivalent to an atomic ++currentY
+                currentY.incrementAndGet();
+            };
+
+            collector.accept(firstLine);
+            it.forEachRemaining(collector);
+
+            // Instantiate a small array that holds the width and the height of the map
+            return new int[]{width, currentY.get()};
+        });
+
+        final int width = dimensions[0];
+        final int height = dimensions[1];
 
         System.out.print("Part one: ");
 
