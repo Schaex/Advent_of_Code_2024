@@ -16,7 +16,8 @@ public class Day06 {
     static {
         try {
             AREA = FileUtil.transformFileContent(6,
-                    stream -> stream.map(String::toCharArray).toArray(char[][]::new));
+                    stream -> stream.map(String::toCharArray)
+                            .toArray(char[][]::new));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

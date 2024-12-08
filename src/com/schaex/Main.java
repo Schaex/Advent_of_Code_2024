@@ -1,13 +1,11 @@
 package com.schaex;
 
-import java.lang.reflect.InvocationTargetException;
-
 public class Main {
     public static void main(String... args) throws Exception {
-        runDaysUntil(7);
+        runDaysUntil(8);
     }
 
-    private static void runDaysUntil(int day) throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+    private static void runDaysUntil(int day) throws ReflectiveOperationException {
         for (int i = 1; i <= day; i++) {
             final String name = i < 10 ? "Day0" + i : "Day" + i;
 
