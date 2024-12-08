@@ -49,29 +49,26 @@ public class Day08 {
                 }
 
                 for (Point point1 : points) {
-                    final int x1 = point1.x, y1 = point1.y;
-
                     for (Point point2 : points) {
                         // Again, a single point does not form a line
                         if (point1 == point2) {
                             continue;
                         }
 
-                        final int x2 = point2.x, y2 = point2.y;
+                        int x1 = point1.x, y1 = point1.y;
+                        int x2 = point2.x, y2 = point2.y;
 
                         // Create a vector P1->P2
                         final int dx = x2 - x1, dy = y2 - y1;
 
-                        Point point;
-
                         // Subtract the vector from P1
-                        if ((point = Point.make(x1 - dx, y1 - dy, width, height)) != null) {
-                            uniqueAntiNodes.add(point);
+                        if (ParamUtil.isInRange(x1 -= dx, 0, width) && ParamUtil.isInRange(y1 -= dy, 0, height)) {
+                            uniqueAntiNodes.add(new Point(x1, y1));
                         }
 
                         // Add the vector to P2
-                        if ((point = Point.make(x2 + dx, y2 + dy, width, height)) != null) {
-                            uniqueAntiNodes.add(point);
+                        if (ParamUtil.isInRange(x2 += dx, 0, width) && ParamUtil.isInRange(y2 += dy, 0, height)) {
+                            uniqueAntiNodes.add(new Point(x2, y2));
                         }
                     }
                 }
@@ -101,21 +98,17 @@ public class Day08 {
                             continue;
                         }
 
-                        // Moved the coordinates inside this loop and made them not final
-                        // so that we can extend them by the vector over and over again
                         int x1 = point1.x, y1 = point1.y;
                         int x2 = point2.x, y2 = point2.y;
                         final int dx = x2 - x1, dy = y2 - y1;
 
-                        Point point;
-
                         // Turned the if-statements into while-loops
-                        while ((point = Point.make(x1 -= dx, y1 -= dy, width, height)) != null) {
-                            uniqueAntiNodes.add(point);
+                        while (ParamUtil.isInRange(x1 -= dx, 0, width) && ParamUtil.isInRange(y1 -= dy, 0, height)) {
+                            uniqueAntiNodes.add(new Point(x1, y1));
                         }
 
-                        while ((point = Point.make(x2 += dx, y2 += dy, width, height)) != null) {
-                            uniqueAntiNodes.add(point);
+                        while (ParamUtil.isInRange(x2 += dx, 0, width) && ParamUtil.isInRange(y2 += dy, 0, height)) {
+                            uniqueAntiNodes.add(new Point(x2, y2));
                         }
                     }
                 }
@@ -127,15 +120,6 @@ public class Day08 {
 
     // Container for convenience
     private record Point(int x, int y) {
-        // Static factory method to check whether the coordinates are in bounds
-        static Point make(int x, int y, int width, int height) {
-            if (ParamUtil.isInRange(x, 0, width) && ParamUtil.isInRange(y, 0, height)) {
-                return new Point(x, y);
-            }
-
-            return null;
-        }
-
         // equals() implementation that is important for using Sets
         @Override
         public boolean equals(Object o) {
