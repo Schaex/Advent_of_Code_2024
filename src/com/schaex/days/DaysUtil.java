@@ -11,7 +11,12 @@ public final class DaysUtil {
     }
 
     public static File resource(int day) {
-        String prefix = day < 10 ? "Day_0" + day : "Day_" + day;
+        final int absVal = Math.abs(day);
+        String prefix = absVal < 10 ? "Day_0" + absVal : "Day_" + absVal;
+
+        if (day < 0) {
+            prefix += "_test";
+        }
 
         return resource(prefix + ".txt");
     }

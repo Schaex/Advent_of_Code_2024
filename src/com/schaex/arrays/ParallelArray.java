@@ -1,5 +1,6 @@
 package com.schaex.arrays;
 
+import java.sql.Array;
 import java.util.Iterator;
 
 public class ParallelArray<T> implements Iterable<ParallelArray<T>.Slice> {
@@ -60,11 +61,11 @@ public class ParallelArray<T> implements Iterable<ParallelArray<T>.Slice> {
                     final StringBuilder builder = new StringBuilder();
 
                     for (int i = 0; i < colM1; i++) {
-                        builder.append(arrays[i][cursor])
+                        builder.append(ArrayUtil.getIfInRange(arrays[i], cursor))
                                 .append(delimiter, 0, 2);
                     }
 
-                    builder.append(arrays[colM1][cursor]);
+                    builder.append(ArrayUtil.getIfInRange(arrays[colM1], cursor));
 
                     yield builder.toString();
                 }

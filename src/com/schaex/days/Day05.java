@@ -13,7 +13,7 @@ public class Day05 {
         final Map<Integer, List<Integer>> allPrevious = new HashMap<>();
 
         // Gets a list of all updates -> 1 update = 1 int array
-        final int[][] updates = FileUtil.transformFileContent(5, stream -> {
+        final int[][] updates = FileUtil.transformFileLines(5, stream -> {
             // Intermediary list to collect only the updates
             final List<int[]> updatesList = new ArrayList<>();
 

@@ -14,7 +14,7 @@ public class Day03 {
         final File file = DaysUtil.resource(3);
 
         // Get entire file as a single string
-        final String text = FileUtil.readEntireFile(file);
+        final String text = FileUtil.readEntireFile(3);
 
         System.out.print("Part one: ");
 

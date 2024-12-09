@@ -15,7 +15,7 @@ public class Day06 {
     // Static initializer so that the constants are available to everything inside this class
     static {
         try {
-            AREA = FileUtil.transformFileContent(6,
+            AREA = FileUtil.transformFileLines(6,
                     stream -> stream.map(String::toCharArray)
                             .toArray(char[][]::new));
         } catch (IOException e) {

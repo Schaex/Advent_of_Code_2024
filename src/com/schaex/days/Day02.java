@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 public class Day02 {
     public static void main(String... args) throws IOException {
         // Get reports as arrays inside LinkedList => enable removal of entries
-        final List<int[]> list = FileUtil.transformFileContent(2,
+        final List<int[]> list = FileUtil.transformFileLines(2,
                 stream -> stream.map(line -> line.split(" "))
                         .map(ArrayUtil::intArrayFromStrings)
                         .collect(Collectors.toCollection(LinkedList::new)));

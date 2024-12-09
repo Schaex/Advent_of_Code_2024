@@ -13,7 +13,7 @@ public class Day08 {
         final Map<Character, List<Point>> frequencies = new HashMap<>();
 
         // Lazily get the coordinates of each antenna without the need to collect the lines of the input
-        final int[] dimensions = FileUtil.transformFileContent(8, stream -> {
+        final int[] dimensions = FileUtil.transformFileLines(8, stream -> {
             // AtomicInteger so that we can use a reference inside a lambda expression
             final AtomicInteger currentY = new AtomicInteger();
 

@@ -1,24 +1,30 @@
 package com.schaex.arrays;
 
+import com.schaex.util.ParamUtil;
+import com.schaex.util.PublicCloneable;
+
 import java.lang.reflect.Array;
 
 public final class ArrayUtil {
     private ArrayUtil() {}
 
     @SuppressWarnings("unchecked")
-    public static <T> T[][] transposeRectangular(T[][] array) {
-        final Class<T> clazz = (Class<T>) array.getClass().componentType().componentType();
-        final T[][] transposed = (T[][]) Array.newInstance(clazz, array[0].length, array.length);
+    public static <T extends PublicCloneable<T>> T[] cloneEntries(T[] array) {
+        final T[] copy = (T[]) Array.newInstance(array.getClass().componentType(), array.length);
 
-        for (int i = 0; i < array.length; i++) {
-            final T[] inner = array[i];
-
-            for (int j = 0; j < inner.length; j++) {
-                transposed[j][i] = inner[j];
+        try {
+            for (int i = 0; i < copy.length; i++) {
+                copy[i] = array[i].clone();
             }
+        } catch (CloneNotSupportedException e) {
+            throw new RuntimeException(e);
         }
 
-        return transposed;
+        return copy;
+    }
+
+    public static <T> T getIfInRange(T[] array, int index) {
+        return ParamUtil.isInRange(index, 0, array.length) ? array[index] : null;
     }
 
     public static int[][] transposeRectangular(int[][] array) {
