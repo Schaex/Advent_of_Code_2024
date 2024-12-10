@@ -164,7 +164,7 @@ public class Day07 {
                 operators[index] = 0;
                 increase(index + 1);
             } else {
-                operators[index]++;
+                operators[index] = value + 1;
             }
         }
 
