@@ -23,7 +23,7 @@ public class Day09 {
 
             // We already know how many bytes must be read and that they alternate between "file" and "gap"
             for (int index = 0, id = 0, next; (next = in.read()) != -1; isEntry = !isEntry) {
-                int nextVal = next - difference;
+                final int nextVal = next - difference;
 
                 if (isEntry) {
                     files[index] = new MemoryRegion(id, id += nextVal, nextVal);
