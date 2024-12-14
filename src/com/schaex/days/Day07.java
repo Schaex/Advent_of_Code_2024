@@ -9,6 +9,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.LongStream;
 
 public class Day07 {
     public static void main(String... args) throws IOException {
@@ -90,7 +91,6 @@ public class Day07 {
                 // Again, cache important constants, this time including the string representations of each number
                 final long value = line.value;
                 final long[] numbers = line.numbers;
-                final String[] numbersAsString = line.numbersAsString;
                 final int lengthM1 = numbers.length - 1;
 
                 // Number of permutations needs to be calculated first
@@ -115,7 +115,7 @@ public class Day07 {
                         switch (operators[index]) {
                             case Operators.ADD -> calculated += next;
                             case Operators.MULTIPLY -> calculated *= next;
-                            default -> calculated = Long.parseLong(calculated + numbersAsString[index + 1]);
+                            default -> calculated = concatenate(calculated, next);
                         }
 
                         // Again, check for overshoot or even overflow
@@ -136,10 +136,25 @@ public class Day07 {
         }
     }
 
+    // Cache the powers of 10 so that they don't need to be calculated over and over again
+    private static final long[] POWERS_OF_TEN = LongStream.iterate(10L, value -> value > 0L, value -> value * 10L).toArray();
+
+    private static long concatenate(long left, long right) {
+        for (long power : POWERS_OF_TEN) {
+            // Found the smallest power of 10 that is larger than the right number
+            if (right < power) {
+                // e.g. "123" + "456" -> 123 * 1000 + 456 = 123456
+                return left * power + right;
+            }
+        }
+
+        throw new IllegalArgumentException("This should not happen while concatenating " + left + " with " + right);
+    }
+
     // Container for each line
-    private record Line(long value, long[] numbers, String[] numbersAsString) {
+    private record Line(long value, long[] numbers) {
         Line(String value, String[] splitNumbers) {
-            this(Long.parseLong(value), ArrayUtil.longArrayFromStrings(splitNumbers), splitNumbers);
+            this(Long.parseLong(value), ArrayUtil.longArrayFromStrings(splitNumbers));
         }
     }
 
