@@ -18,7 +18,7 @@ public interface BenchmarkRunnable {
         return "Total run time: " + formatNanoTime(benchmark());
     }
 
-    static String formatNanoTime(long nanos) {
+    private static String formatNanoTime(long nanos) {
         final long h = nanos / 3600000000000L;
         nanos %= 3600000000000L;
         final long min = nanos / 60000000000L;
@@ -31,5 +31,9 @@ public interface BenchmarkRunnable {
         nanos %= 1000L;
 
         return String.format(Locale.US, "%02d h %02d min %02d.%03d_%03d_%03d s", h, min, s, ms, us, nanos);
+    }
+
+    static void doFormatRun(BenchmarkRunnable runnable) {
+        System.out.println(runnable.formatRun());
     }
 }

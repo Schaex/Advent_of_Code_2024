@@ -2,7 +2,7 @@ package com.schaex;
 
 public class Main {
     public static void main(String... args) throws Exception {
-        runDaysUntil(10);
+        runDaysUntil(11);
     }
 
     private static void runDaysUntil(int day) throws ReflectiveOperationException {
