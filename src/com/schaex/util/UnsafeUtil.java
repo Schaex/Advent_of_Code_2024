@@ -18,7 +18,11 @@ public final class UnsafeUtil {
         }
     }
 
+    public static void fillArray(char[] array, byte value) {
+        U.setMemory(array, Unsafe.ARRAY_CHAR_BASE_OFFSET, (long) array.length * Unsafe.ARRAY_CHAR_INDEX_SCALE, value);
+    }
+
     public static void clearArray(char[] array) {
-        U.setMemory(array, Unsafe.ARRAY_CHAR_BASE_OFFSET, (long) array.length * Unsafe.ARRAY_CHAR_INDEX_SCALE, (byte) 0);
+        fillArray(array, (byte) 0);
     }
 }

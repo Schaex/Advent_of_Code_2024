@@ -4,6 +4,8 @@ import java.io.File;
 import java.util.Objects;
 
 public final class DaysUtil {
+    static final boolean JUST_SHOW_RESULTS = true;
+
     private DaysUtil() {}
 
     public static File resource(String name) {
