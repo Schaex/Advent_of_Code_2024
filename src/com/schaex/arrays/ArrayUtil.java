@@ -41,20 +41,6 @@ public final class ArrayUtil {
         return transposed;
     }
 
-    public static char[][] transposeRectangular(char[][] array) {
-        final char[][] transposed = new char[array[0].length][array.length];
-
-        for (int i = 0; i < array.length; i++) {
-            final char[] inner = array[i];
-
-            for (int j = 0; j < inner.length; j++) {
-                transposed[j][i] = inner[j];
-            }
-        }
-
-        return transposed;
-    }
-
     public static int[] intArrayFromStrings(String[] strArray) {
         final int[] ints = new int[strArray.length];
 

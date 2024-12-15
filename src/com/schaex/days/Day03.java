@@ -2,7 +2,6 @@ package com.schaex.days;
 
 import com.schaex.util.FileUtil;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -11,8 +10,6 @@ import java.util.regex.Pattern;
 
 public class Day03 {
     public static void main(String... args) throws IOException {
-        final File file = DaysUtil.resource(3);
-
         // Get entire file as a single string
         final String text = FileUtil.readEntireFile(3);
 

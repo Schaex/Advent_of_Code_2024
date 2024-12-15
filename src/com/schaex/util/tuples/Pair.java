@@ -1,5 +1,6 @@
 package com.schaex.util.tuples;
 
+@SuppressWarnings("unused")
 public class Pair<A, B> {
     private A left;
     private B right;

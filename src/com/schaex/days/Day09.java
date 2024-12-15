@@ -5,34 +5,30 @@ import com.schaex.util.FileUtil;
 import com.schaex.util.PublicCloneable;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Day09 {
     public static void main(String... args) throws IOException {
         final MemoryRegion[][] drive = FileUtil.transformFileInputStream(9, in -> {
-            // Difference between the character representation and the int value
-            final int difference = '0'; // == '0' - 0
-
-            // One byte = one character => one int
-            final int totalBytes = (int) in.getChannel().size();
-            final int totalGaps = totalBytes / 2;
-
-            final MemoryRegion[] files = new MemoryRegion[totalBytes - totalGaps];
-            final MemoryRegion[] gaps = new MemoryRegion[totalGaps];
+            final List<MemoryRegion> files = new ArrayList<>();
+            final List<MemoryRegion> gaps = new ArrayList<>();
 
             boolean isEntry = true;
 
             // We already know how many bytes must be read and that they alternate between "file" and "gap"
-            for (int index = 0, id = 0, next; (next = in.read()) != -1; isEntry = !isEntry) {
-                final int nextVal = next - difference;
+            for (int id = 0, next; (next = in.read()) != -1; isEntry = !isEntry) {
+                // '0' is the difference between the character representation and the int value
+                final int nextVal = next - '0';
 
                 if (isEntry) {
-                    files[index] = new MemoryRegion(id, id += nextVal, nextVal);
+                    files.add(new MemoryRegion(id, id += nextVal, nextVal));
                 } else {
-                    gaps[index++] = new MemoryRegion(id, id += nextVal, 0);
+                    gaps.add(new MemoryRegion(id, id += nextVal, 0));
                 }
             }
 
-            return new MemoryRegion[][]{files, gaps};
+            return new MemoryRegion[][]{files.toArray(MemoryRegion[]::new), gaps.toArray(MemoryRegion[]::new)};
         });
 
         System.out.print("Part one: ");

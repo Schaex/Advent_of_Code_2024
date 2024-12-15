@@ -2,6 +2,7 @@ package com.schaex.benchmark;
 
 import java.util.Locale;
 
+@SuppressWarnings("unused")
 @FunctionalInterface
 public interface BenchmarkRunnable {
     void run();

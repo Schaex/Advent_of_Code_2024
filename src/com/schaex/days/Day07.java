@@ -162,7 +162,7 @@ public class Day07 {
     private static class Operators {
         static final int ADD = 0;
         static final int MULTIPLY = 1;
-        static final int CONCATENATE = 2;
+        //static final int CONCATENATE = 2;
 
         final int[] operators = new int[32];
 

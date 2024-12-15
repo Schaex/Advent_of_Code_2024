@@ -2,14 +2,7 @@ package com.schaex;
 
 public class Main {
     public static void main(String... args) throws Exception {
-        final char[] chars = new char[10];
-
-        chars[0] = '#';
-        chars[3] = '#';
-        chars[8] = '#';
-
-        System.out.println(chars);
-        System.out.println(new String(chars).replace('\0', ' '));
+        runDaysUntil(15);
     }
 
     private static void runDaysUntil(int day) throws ReflectiveOperationException {

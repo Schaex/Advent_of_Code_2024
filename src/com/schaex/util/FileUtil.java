@@ -9,8 +9,15 @@ import java.io.*;
 import java.util.Iterator;
 import java.util.stream.Stream;
 
+@SuppressWarnings("unused")
 public final class FileUtil {
     private FileUtil() {}
+
+    public static <T> T transformFileLines(InputStream in, Transformer<Stream<String>, T> transformer) throws IOException {
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(in))) {
+            return transformer.transform(reader.lines());
+        }
+    }
 
     public static <T> T transformFileLines(File file, Transformer<Stream<String>, T> transformer) throws IOException {
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
@@ -29,8 +36,8 @@ public final class FileUtil {
                         .toArray(int[][]::new));
     }
 
-    public static <T> T transformFileInputStream(int day, Transformer<FileInputStream, T> transformer) throws IOException {
-        try (FileInputStream in = new FileInputStream(DaysUtil.resource(day))) {
+    public static <T> T transformFileInputStream(int day, Transformer<InputStream, T> transformer) throws IOException {
+        try (InputStream in = DaysUtil.resource(day)) {
             return transformer.transform(in);
         }
     }

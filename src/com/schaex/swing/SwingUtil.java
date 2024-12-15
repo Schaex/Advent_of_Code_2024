@@ -3,6 +3,7 @@ package com.schaex.swing;
 import javax.swing.*;
 import java.awt.*;
 
+@SuppressWarnings("unused")
 public final class SwingUtil {
     private SwingUtil() {}
 

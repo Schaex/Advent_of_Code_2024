@@ -1,8 +1,8 @@
 package com.schaex.arrays;
 
-import java.sql.Array;
 import java.util.Iterator;
 
+@SuppressWarnings("unused")
 public class ParallelArray<T> implements Iterable<ParallelArray<T>.Slice> {
     private final T[][] arrays;
     private final int maxCursor;

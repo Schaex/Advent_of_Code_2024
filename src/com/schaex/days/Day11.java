@@ -102,6 +102,7 @@ public class Day11 {
     }
 
     // Does work for the first part but won't for the second because there will be too many allocations
+    @SuppressWarnings("unused")
     private static void firstAttempt() {
         final StoneList list = new StoneList();
 
@@ -194,12 +195,6 @@ public class Day11 {
             }
 
             last = stone;
-        }
-
-        void blinkAll(int count) {
-            for (int i = 0; i < count; i++) {
-                blinkAll();
-            }
         }
 
         void blinkAll() {
