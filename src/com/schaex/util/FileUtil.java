@@ -19,12 +19,6 @@ public final class FileUtil {
         }
     }
 
-    public static <T> T transformFileLines(File file, Transformer<Stream<String>, T> transformer) throws IOException {
-        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
-            return transformer.transform(reader.lines());
-        }
-    }
-
     public static <T> T transformFileLines(int day, Transformer<Stream<String>, T> transformer) throws IOException {
         return transformFileLines(DaysUtil.resource(day), transformer);
     }
@@ -34,6 +28,12 @@ public final class FileUtil {
                 stream.map(s -> s.split(delimiter))
                         .map(ArrayUtil::intArrayFromStrings)
                         .toArray(int[][]::new));
+    }
+
+    public static char[][] getCharTableFromFile(int day) throws IOException {
+        return transformFileLines(day, stream ->
+                stream.map(String::toCharArray)
+                        .toArray(char[][]::new));
     }
 
     public static <T> T transformFileInputStream(int day, Transformer<InputStream, T> transformer) throws IOException {

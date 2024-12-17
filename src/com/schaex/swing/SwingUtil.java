@@ -7,24 +7,20 @@ import java.awt.*;
 public final class SwingUtil {
     private SwingUtil() {}
 
-    public static JFrame makeFrame(Component topComponent) {
-        final JFrame frame = new JFrame();
+    public static JFrame makeFrame(String title, Component topComponent) {
+        final JFrame frame = new JFrame(title);
 
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.add(topComponent);
 
         frame.setSize(Toolkit.getDefaultToolkit().getScreenSize());
+        frame.setExtendedState(Frame.MAXIMIZED_BOTH);
 
         return frame;
     }
 
-    public static void display(Component topComponent) {
-        final JFrame frame = new JFrame();
-
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.add(topComponent);
-
-        frame.setSize(Toolkit.getDefaultToolkit().getScreenSize());
+    public static void display(String title, Component topComponent) {
+        final JFrame frame = makeFrame(title, topComponent);
 
         frame.setVisible(true);
     }

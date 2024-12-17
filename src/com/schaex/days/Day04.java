@@ -7,9 +7,7 @@ import java.io.IOException;
 public class Day04 {
     public static void main(String... args) throws IOException {
         // Get grid as 2-dimensional char array
-        final char[][] matrix = FileUtil.transformFileLines(4, lines ->
-                lines.map(String::toCharArray)
-                        .toArray(char[][]::new));
+        final char[][] matrix = FileUtil.getCharTableFromFile(4);
 
         // Cache dimensions
         final int length = matrix.length;

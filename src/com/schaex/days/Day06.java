@@ -15,9 +15,7 @@ public class Day06 {
     // Static initializer so that the constants are available to everything inside this class
     static {
         try {
-            AREA = FileUtil.transformFileLines(6,
-                    stream -> stream.map(String::toCharArray)
-                            .toArray(char[][]::new));
+            AREA = FileUtil.getCharTableFromFile(6);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

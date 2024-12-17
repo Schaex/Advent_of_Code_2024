@@ -127,7 +127,7 @@ public class Day14 {
             mainPanel.add(leftButton, BorderLayout.WEST);
             mainPanel.add(rightButton, BorderLayout.EAST);
 
-            SwingUtil.display(mainPanel);
+            SwingUtil.display("Day 14", mainPanel);
         }
     }
 
