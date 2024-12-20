@@ -15,6 +15,9 @@ import java.util.stream.Stream;
 public class Day16 {
     private static final char[][] MAZE;
 
+    private static final int HEIGHT;
+    private static final int WIDTH;
+
     private static final char BARRIER    = '#';
     private static final char START_TILE = 'S';
     //private static final char END_TILE   = 'E';
@@ -35,8 +38,11 @@ public class Day16 {
             throw new RuntimeException(e);
         }
 
-        START = new Point(1, MAZE.length - 2);
-        END = new Point(MAZE[0].length - 2, 1);
+        HEIGHT = MAZE.length;
+        WIDTH = MAZE[0].length;
+
+        START = new Point(1, HEIGHT - 2);
+        END = new Point(WIDTH - 2, 1);
 
         // Don't need to do any more if we only want the results
         if (DaysUtil.JUST_SHOW_RESULTS) {
@@ -44,17 +50,17 @@ public class Day16 {
             PANEL_TILES = null;
         } else {
             // Make a grid
-            final JPanel mainPanel = new JPanel(new GridLayout(MAZE.length, MAZE[0].length, 1, 1));
+            final JPanel mainPanel = new JPanel(new GridLayout(HEIGHT, WIDTH, 1, 1));
             mainPanel.setBackground(Color.BLACK);
 
-            PANEL_TILES = new JPanel[MAZE.length][MAZE[0].length];
+            PANEL_TILES = new JPanel[HEIGHT][WIDTH];
             final List<Point> pointList = new ArrayList<>();
 
             // Iterate over the entire grid
-            for (int y = 0; y < PANEL_TILES.length; y++) {
+            for (int y = 0; y < HEIGHT; y++) {
                 final JPanel[] row = PANEL_TILES[y];
 
-                for (int x = 0; x < row.length; x++) {
+                for (int x = 0; x < WIDTH; x++) {
                     final JPanel panel = new JPanel();
 
                     panel.setSize(2, 2);
@@ -83,7 +89,7 @@ public class Day16 {
         }
     }
 
-    public static void main(String... args) throws Exception {
+    public static void main(String... args) {
         final Pair<Integer, Stream<Point>> result = new Traversal().run();
 
         assert result != null;
@@ -115,7 +121,7 @@ public class Day16 {
         static int MAX_TIMES_TURNED = Integer.MAX_VALUE;
 
         // Information on all tiles, shared with children
-        final Map<Point, CrossNode> crossNodes;
+        final CrossNodeMatrix crossNodes;
         // All instances other than the "root" are in lists corresponding to their timesTurned field, shared
         final Map<Integer, List<Traversal>> children;
         // All points that have already been stepped on, only copied not shared
@@ -128,7 +134,7 @@ public class Day16 {
 
         // This constructor is called by the main method
         Traversal() {
-            crossNodes = new HashMap<>();
+            crossNodes = new CrossNodeMatrix(WIDTH, HEIGHT);
             children = new HashMap<>();
             traversedPoints = new HashSet<>();
             dir = Direction.EAST;
@@ -166,25 +172,25 @@ public class Day16 {
                 if (isValidTile(nextLeft) && (node.canSetMinScore(leftDir, score + TURNING_PENALTY))) {
                     final Traversal child = new Traversal(this);
                     child.turnLeft();
-                    child.stepForward();
+                    child.stepForward(nextLeft);
                 }
 
                 if (isValidTile(nextRight) && (node.canSetMinScore(rightDir, score + TURNING_PENALTY))) {
                     final Traversal child = new Traversal(this);
                     child.turnRight();
-                    child.stepForward();
+                    child.stepForward(nextRight);
                 }
             } else {
                 if (isValidTile(nextRight) && (node.canSetMinScore(rightDir, score + TURNING_PENALTY))) {
                     final Traversal child = new Traversal(this);
                     child.turnRight();
-                    child.stepForward();
+                    child.stepForward(nextRight);
                 }
 
                 if (isValidTile(nextLeft) && (node.canSetMinScore(leftDir, score + TURNING_PENALTY))) {
                     final Traversal child = new Traversal(this);
                     child.turnLeft();
-                    child.stepForward();
+                    child.stepForward(nextLeft);
                 }
             }
         }
@@ -241,7 +247,7 @@ public class Day16 {
                 }
 
                 // Fetches the information for the current tile
-                final CrossNode node = crossNodes.computeIfAbsent(pos, point -> new CrossNode());
+                final CrossNode node = crossNodes.getNode(pos);
 
                 // If we can still afford turning
                 if (MAX_TIMES_TURNED >= timesTurned) {
@@ -253,7 +259,7 @@ public class Day16 {
                 // Only make another step if the next tile can be stepped on
                 // AND if it allows our current score, computes the children otherwise
                 if (isValidTile(nextForward) && node.canSetMinScore(dir, score)) {
-                    stepForward();
+                    stepForward(nextForward);
                 } else {
                     return fallback();
                 }
@@ -276,8 +282,7 @@ public class Day16 {
             return tile != BARRIER && tile != START_TILE && !traversedPoints.contains(point);
         }
 
-        void stepForward() {
-            final Point next = pos.next(dir);
+        void stepForward(Point next) {
             traversedPoints.add(next);
 
             if (!DaysUtil.JUST_SHOW_RESULTS) {
@@ -296,6 +301,24 @@ public class Day16 {
         void turnRight() {
             dir = dir.turnRight();
             score += TURNING_PENALTY;
+        }
+    }
+
+    private static class CrossNodeMatrix {
+        final CrossNode[][] nodes;
+
+        CrossNodeMatrix(int width, int height) {
+            this.nodes = new CrossNode[height][width];
+        }
+
+        CrossNode getNode(Point coordinates) {
+            CrossNode node;
+
+            if ((node = nodes[coordinates.y][coordinates.x]) == null) {
+                node = nodes[coordinates.y][coordinates.x] = new CrossNode();
+            }
+
+            return node;
         }
     }
 

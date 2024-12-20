@@ -1,25 +1,43 @@
 package com.schaex.benchmark;
 
 import java.util.Locale;
+import java.util.function.ToLongBiFunction;
 
 @SuppressWarnings("unused")
 @FunctionalInterface
-public interface BenchmarkRunnable {
-    void run();
+public interface BenchmarkRunnable extends Runnable {
+    void runWithException() throws Throwable;
 
-    default long benchmark() {
+    @Override
+    default void run() {
+        try {
+            runWithException();
+        } catch (Throwable ignored) {}
+    }
+
+    default long benchmark(ToLongBiFunction<long[], Throwable> exceptionHandler) {
         final long start = System.nanoTime();
 
-        run();
+        try {
+            runWithException();
+        } catch (Throwable throwable) {
+            return exceptionHandler.applyAsLong(new long[]{start, System.nanoTime()}, throwable);
+        }
 
         return System.nanoTime() - start;
+    }
+
+    default long benchmark() {
+        return benchmark((startEnd, throwable) -> {
+            throw new RuntimeException(throwable);
+        });
     }
 
     default String formatRun() {
         return "Total run time: " + formatNanoTime(benchmark());
     }
 
-    private static String formatNanoTime(long nanos) {
+    static String formatNanoTime(long nanos) {
         final long h = nanos / 3600000000000L;
         nanos %= 3600000000000L;
         final long min = nanos / 60000000000L;
