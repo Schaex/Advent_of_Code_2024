@@ -40,7 +40,9 @@ public class Day17 {
             -> Jump to the start of the program as long as the value in register A is larger than 0
          */
 
-        // 37221274271220
+        // In Base_10: 37221274271220
+        // In Base_2:        001 000 011 101 101 001 000 000 110 101 001 011 110 111 110 100
+        // 3-wide windows:    1   0   3   5   5   1   0   0   6   5   1   3   6   7   6   4
         {
             // Sets so that we don't keep duplicates
             Set<Long> allResults = new HashSet<>();
