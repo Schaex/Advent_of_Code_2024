@@ -6,10 +6,10 @@ public class Main {
     private static final int DAYS = 16;
 
     public static void main(String... args) throws Exception {
-        System.out.println(BenchmarkRunnable.formatNanoTime(-1));
+        BenchmarkRunnable.doFormatRun(Main::runAllDays);
     }
 
-    private static void runDaysUntil() throws ReflectiveOperationException {
+    private static void runAllDays() throws ReflectiveOperationException {
         for (int i = 1; i <= DAYS; i++) {
             final String name = i < 10 ? "Day0" + i : "Day" + i;
 

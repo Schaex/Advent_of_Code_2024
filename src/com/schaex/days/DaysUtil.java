@@ -3,7 +3,7 @@ package com.schaex.days;
 import java.io.InputStream;
 
 public final class DaysUtil {
-    static final boolean JUST_SHOW_RESULTS = true;
+    static final boolean JUST_SHOW_RESULTS = false;
 
     private DaysUtil() {}
 
