@@ -1,5 +1,6 @@
 package com.schaex.days;
 
+import com.schaex.frequently_used.Point;
 import com.schaex.util.FileUtil;
 import com.schaex.util.ParamUtil;
 
@@ -131,23 +132,6 @@ public class Day08 {
             }
 
             System.out.println(uniqueAntiNodes.size());
-        }
-    }
-
-    // Container for convenience
-    private record Point(int x, int y) {
-        // equals() implementation that is important for using Sets
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (!(o instanceof Point point)) return false;
-            return x == point.x && y == point.y;
-        }
-
-        // hashCode() implementation that is important for hash-dependent collections, such as a HashSet
-        @Override
-        public int hashCode() {
-            return (x << 24) + (y << 8);
         }
     }
 }

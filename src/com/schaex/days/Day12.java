@@ -286,33 +286,17 @@ public class Day12 {
         }
     }
 
-    private static class Point {
-        final int x, y;
+    private static class Point extends com.schaex.frequently_used.Point {
         int similarNeighbors;
 
         Point(int x, int y) {
-            this.x = x;
-            this.y = y;
-        }
-
-        // Important for HashMap
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (!(o instanceof Point point)) return false;
-            return x == point.x && y == point.y;
-        }
-
-        // Also important for HashMap
-        @Override
-        public int hashCode() {
-            return x << 16 + y;
+            super(x, y);
         }
 
         // For debugging
         @Override
         public String toString() {
-            return "[" + x + "," + y + "] -> " + similarNeighbors;
+            return super.toString() + " -> " + similarNeighbors;
         }
     }
 

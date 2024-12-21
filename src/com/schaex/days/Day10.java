@@ -1,5 +1,6 @@
 package com.schaex.days;
 
+import com.schaex.frequently_used.Direction;
 import com.schaex.util.FileUtil;
 import com.schaex.util.ParamUtil;
 
@@ -77,13 +78,9 @@ public class Day10 {
     }
 
     // Container for 2D-coordinates
-    private record Point(int x, int y) {
-        int taxicabDistance(int otherX, int otherY) {
-            return Math.abs(x - otherX) + Math.abs(y - otherY);
-        }
-
-        int taxicabDistance(Point other) {
-            return Math.abs(x - other.x) + Math.abs(y - other.y);
+    private static class Point extends com.schaex.frequently_used.Point {
+        public Point(int x, int y) {
+            super(x, y);
         }
 
         int numberOfTrailsTo(Point other) {
@@ -117,28 +114,6 @@ public class Day10 {
             }
 
             return count;
-        }
-
-        // For debugging
-        @Override
-        public String toString() {
-            return "[" + x + "," + y + "]";
-        }
-    }
-
-    // Convenience enum, stolen from day 6 so that I don't need to write as much
-    private enum Direction {
-        UP(0, -1),
-        RIGHT(1, 0),
-        DOWN(0, 1),
-        LEFT(-1,0);
-
-        final int dx;
-        final int dy;
-
-        Direction(int dx, int dy) {
-            this.dx = dx;
-            this.dy = dy;
         }
     }
 }

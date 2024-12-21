@@ -1,5 +1,6 @@
 package com.schaex.days;
 
+import com.schaex.frequently_used.Direction;
 import com.schaex.swing.SwingUtil;
 import com.schaex.util.FileUtil;
 import com.schaex.util.tuples.Pair;
@@ -323,34 +324,18 @@ public class Day16 {
     }
 
     // Container to encapsulate the behavior of a point that can move in one of the cardinal directions
-    private record Point(int x, int y) {
+    private static class Point extends com.schaex.frequently_used.Point {
+        public Point(int x, int y) {
+            super(x, y);
+        }
+
         // For heuristics
         int taxicabDistanceToEnd() {
-            return Math.abs(x - END.x) + Math.abs(y - END.y);
+            return taxicabDistance(END);
         }
 
         Point next(Direction inDir) {
             return new Point(x + inDir.dx, y + inDir.dy);
-        }
-
-        // For HashMap and HashSet
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (!(o instanceof Point point)) return false;
-            return x == point.x && y == point.y;
-        }
-
-        // See equals()
-        @Override
-        public int hashCode() {
-            return (y << 16) + x;
-        }
-
-        // For debugging
-        @Override
-        public String toString() {
-            return "[" + x + "," + y + "]";
         }
     }
 
@@ -371,39 +356,6 @@ public class Day16 {
             }
 
             return false;
-        }
-    }
-
-    // Enum that encapsulates the vectors of the cardinal directions as well as the behavior of turning left or right
-    private enum Direction {
-        WEST(-1, 0),
-        EAST(1, 0),
-        NORTH(0, -1),
-        SOUTH(0, 1);
-
-        final int dx, dy;
-
-        Direction(int dx, int dy) {
-            this.dx = dx;
-            this.dy = dy;
-        }
-
-        Direction turnLeft() {
-            return switch (this) {
-                case WEST -> SOUTH;
-                case EAST -> NORTH;
-                case NORTH -> WEST;
-                case SOUTH -> EAST;
-            };
-        }
-
-        Direction turnRight() {
-            return switch (this) {
-                case WEST -> NORTH;
-                case EAST -> SOUTH;
-                case NORTH -> EAST;
-                case SOUTH -> WEST;
-            };
         }
     }
 }

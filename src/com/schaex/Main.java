@@ -3,7 +3,7 @@ package com.schaex;
 import com.schaex.benchmark.BenchmarkRunnable;
 
 public class Main {
-    private static final int DAYS = 16;
+    private static final int DAYS = 18;
 
     public static void main(String... args) throws Exception {
         BenchmarkRunnable.doFormatRun(Main::runAllDays);
