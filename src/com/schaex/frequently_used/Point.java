@@ -1,6 +1,8 @@
 package com.schaex.frequently_used;
 
-public class Point {
+import com.schaex.util.PublicCloneable;
+
+public class Point implements PublicCloneable<Point> {
     public final int x, y;
 
     public Point(int x, int y) {
@@ -33,5 +35,10 @@ public class Point {
     @Override
     public String toString() {
         return "[" + x + "," + y + "]";
+    }
+
+    @Override
+    public Point clone() throws CloneNotSupportedException {
+        return (Point) super.clone();
     }
 }

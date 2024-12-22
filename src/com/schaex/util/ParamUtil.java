@@ -5,5 +5,13 @@ public final class ParamUtil {
         return from <= value && value < to;
     }
 
+    public static int clamp(int value, int min, int max) {
+        if (value < min) {
+            return min;
+        }
+
+        return Math.min(value, max);
+    }
+
     private ParamUtil() {}
 }
