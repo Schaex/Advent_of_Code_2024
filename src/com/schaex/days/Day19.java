@@ -65,10 +65,10 @@ public class Day19 {
         }
 
         // 206
-        System.out.println(countPart1);
+        System.out.println("Part one: " + countPart1);
 
         // 622121814629343
-        System.out.println(countPart2);
+        System.out.println("Part two: " + countPart2);
     }
 
     private static long numberOfWays(char[] stripes) {
