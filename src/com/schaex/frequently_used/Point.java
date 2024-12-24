@@ -18,6 +18,26 @@ public class Point implements PublicCloneable<Point> {
         return Math.abs(this.x - other.x) + Math.abs(this.y - other.y);
     }
 
+    public int dx(int x) {
+        return x - this.x;
+    }
+
+    public int dx(Point other) {
+        return other.x - this.x;
+    }
+
+    public int dy(int y) {
+        return y - this.y;
+    }
+
+    public int dy(Point other) {
+        return other.y - this.y;
+    }
+
+    public boolean equals(int x, int y) {
+        return this.x == x && this.y == y;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
